@@ -14,38 +14,22 @@
         
         .item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #30363d; }
         .nome { font-size: 13px; font-weight: bold; text-transform: uppercase; color: #fff; }
-        .data-fixa { font-size: 11px; color: #8b949e; margin-top: 2px; }
+        .data-fixa { font-size: 11px; color: #8b949e; margin-top: 2px; text-transform: capitalize; }
         .dias { color: #39ff14; font-weight: bold; font-size: 14px; text-align: right; }
         
         .frase-box { margin-top: 12px; font-style: italic; color: #ccc; font-size: 12px; line-height: 1.4; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; text-transform: uppercase; border-left: 3px solid #FFB300; }
         
         .btn-rever { margin-top: 15px; background: #FFB300; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; font-size: 12px; text-transform: uppercase; cursor: pointer; box-shadow: 0 0 10px rgba(255,179,0,0.4); }
 
-        /* TELA DE EVENTO ESPECIAL */
         #tela-especial {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, #1a0f00 0%, #000000 100%);
             z-index: 10000; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;
         }
         #tela-especial h1 { color: #FFB300; font-size: 20px; margin-bottom: 15px; text-transform: uppercase; }
-        #tela-especial p { font-size: 15px; margin-bottom: 20px; line-height: 1.5; color: #fff; font-weight: bold; text-transform: uppercase; }
+        #tela-especial p { font-size: 14px; margin-bottom: 20px; line-height: 1.5; color: #fff; font-weight: bold; text-transform: uppercase; padding: 0 10px; }
         #media-container video { width: 100%; max-width: 400px; border: 2px solid #FFB300; border-radius: 15px; }
-
-        /* BOTÃO DE FECHAR ATUALIZADO (GRANDE E VISÍVEL) */
-        .btn-fechar {
-            margin-top: 30px; 
-            background: #FFB300; /* Dourado Sólido */
-            color: #000; /* Texto Preto para Contraste */
-            border: 2px solid #fff; /* Borda Branca para destacar */
-            padding: 15px 30px; /* Mais "gordinho" */
-            border-radius: 10px; 
-            font-size: 14px; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            cursor: pointer;
-            width: 90%; /* Ocupa quase a largura toda */
-            box-shadow: 0 0 20px rgba(255,179,0,0.6); /* Brilho Dourado */
-        }
+        .btn-fechar { margin-top: 30px; background: #FFB300; color: #000; border: 2px solid #fff; padding: 15px 30px; border-radius: 10px; font-size: 14px; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 90%; box-shadow: 0 0 20px rgba(255,179,0,0.6); }
     </style>
 </head>
 <body>
@@ -64,17 +48,32 @@
     </div>
 
     <script>
+        const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
         const eventos = [
-            // TESTE DA PÁSCOA HOJE (31/03)
-            { n: "🇧🇷 PÁSCOA (TESTE)", d: 31, m: 3, f: "FOI POR MIM, FOI POR VOCÊ, O REAL SIGNIFICADO DA PÁSCOA.", especial: { tipo: 'video', src: 'video_pascoa.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, O REAL SIGNIFICADO DA PÁSCOA, JESUS 👑✝️' }},
-            
-            // DATAS ORIGINAIS
+            // CÍRCULO DE ELITE 🎂
             { n: "🎂 MAIARA (IRMÃ)", d: 16, m: 1, f: "PONTO CENTRAL DA ELITE E LEALDADE TOTAL." },
             { n: "🎂 PHILIPE (AMIGO)", d: 24, m: 1, f: "SÓ FELIZ ANIVERSÁRIO, IGUAL ELE FEZ." },
+            { n: "🎂 DANIEL (PRIMO)", d: 11, m: 2, f: "LEMBRAR DA DATA (CONTROLE PESSOAL)." },
             { n: "🎂 PEDRO (AFILHADO)", d: 28, m: 2, f: "CUIDANDO DO FUTURO DO NOSSO AFILHADO!" },
-            { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "O DIA DA PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR! ❤️❤️❤️' }},
-            { n: "🎂 MÃE", d: 28, m: 8, f: "DIA DA SUA PROGENITORA, QUEM DEU A CRIAÇÃO E PRINCÍPIOS." },
-            { n: "🎂 PAI (O REI)", d: 30, m: 9, f: "DIA DO SEU PROGENITOR, A ROCHA E FUNDAÇÃO DE TUDO." },
+            { n: "🎂 CAMILI (IRMÃ)", d: 8, m: 4, f: "AMOR COM ESTRATÉGIA. GENIOSA, MAS CALMA." },
+            { n: "🎂 SAMUEL (PRIMO)", d: 18, m: 4, f: "PRIMO PARCEIRO, BOA CONVIVÊNCIA SEMPRE." },
+            { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR, TUDO DE MELHOR NESSA NOVA FASE, SOU MUITO FELIZ E GRATO POR TE TER NA MINHA VIDA, TE AMO MINHA LINDA, SEGUE UM VIDEO DE ANIVER PRA VOCÊ ABAIXO🎂❤️❤️' }},
+            { n: "🎂 LAURA E ISMA", d: 31, m: 5, f: "CONTROLE DE DATAS REGISTRADO." },
+            { n: "🎂 SANDRA (DINDA)", d: 19, m: 6, f: "RETRIBUIR O PARABÉNS CONFORME RECEBIDO." },
+            { n: "🎂 MÃE", d: 28, m: 8, f: "QUEM DEU A CRIAÇÃO E OS PRINCÍPIOS DA BASE." },
+            { n: "🎂 FERNANDA (IRMÃ)", d: 7, m: 9, f: "ANIVERSÁRIO REGISTRADO (MÁ PAGADORA E INGRATA)." },
+            { n: "🎂 FELÍCIO E LETÍCIA", d: 29, m: 9, f: "RESPEITO MÁXIMO AOS AFILHADOS E PADRINHOS." },
+            { n: "🎂 PAI (O REI)", d: 30, m: 9, f: "A ROCHA, O CHEFE, O REI. SUA FUNDAÇÃO." },
+
+            // DATAS 🇧🇷
+            { n: "🇧🇷 ANO NOVO", d: 1, m: 1, f: "NOVO CICLO FOCADO NO LEGADO." },
+            { n: "🇧🇷 PÁSCOA", d: 5, m: 4, f: "JESUS: O REAL SIGNIFICADO.", especial: { tipo: 'video', src: 'video_pascoa.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, JESUS 👑✝️' }},
+            { n: "🇧🇷 DIA DAS MÃES", d: 10, m: 5, f: "HONRAR A MATRIARCA DA BASE." },
+            { n: "🇧🇷 FESTA JUNINA", d: 24, m: 6, f: "TRADIÇÃO E COMEMORAÇÃO JUNINA." },
+            { n: "🇧🇷 DIA DOS PAIS", d: 9, m: 8, f: "HONRAR O PATRIARCA E CHEFE DA BASE." },
+            { n: "🇧🇷 DIA DAS CRIANÇAS", d: 12, m: 10, f: "CUIDAR DE PEDRO, LETÍCIA E JADE." },
+            { n: "🇧🇷 FINADOS", d: 2, m: 11, f: "DIA DE RESPEITO E MEMÓRIA." },
             { n: "🇧🇷 NATAL", d: 25, m: 12, f: "UNIÃO TOTAL DO CÍRCULO DE ELITE." }
         ];
 
@@ -85,7 +84,6 @@
             document.getElementById('tela-especial').style.display = 'flex';
             document.getElementById('titulo-especial').innerText = eventoDeHoje.n;
             document.getElementById('texto-especial').innerText = eventoDeHoje.especial.msg;
-            
             const container = document.getElementById('media-container');
             container.innerHTML = `<video src="${eventoDeHoje.especial.src}" id="vPlayer" controls loop autoplay playsinline preload="auto"></video>`;
             const v = document.getElementById('vPlayer');
@@ -111,17 +109,17 @@
                 if (dataEv < hoje && dataEv.toDateString() !== hoje.toDateString()) { dataEv.setFullYear(ano + 1); }
                 const diff = dataEv - hoje;
                 const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
-                const dataFormatada = (ev.d < 10 ? '0'+ev.d : ev.d) + "/" + (ev.m < 10 ? '0'+ev.m : ev.m);
+                const dataFormatada = ev.d + " de " + meses[ev.m - 1];
                 return { ...ev, dias, dataFormatada };
             }).sort((a, b) => a.dias - b.dias);
 
             const p = calculados[0];
-            const btnRever = (p.dias === 0 && p.especial) ? `<button class="btn-rever" onclick="abrirEspecial()">📺 VER VÍDEO DA PÁSCOA</button>` : '';
+            const btnRever = (p.dias === 0 && p.especial) ? `<button class="btn-rever" onclick="abrirEspecial()">📺 VER VÍDEO ESPECIAL</button>` : '';
 
             document.getElementById('destaque').innerHTML = `
                 <h2 style="margin: 5px 0; color: #FFB300;">${p.n}</h2>
                 <div style="font-size: 11px; color: #8b949e; margin-bottom: 10px;">DATA: ${p.dataFormatada}</div>
-                <div style="font-size: 24px; color: #39ff14; font-weight: bold;">HOJE É O DIA!</div>
+                <div style="font-size: 24px; color: #39ff14; font-weight: bold;">${p.dias === 0 ? 'HOJE É O DIA!' : 'FALTAM ' + p.dias + ' DIAS'}</div>
                 ${btnRever}
                 <div class="frase-box">"${p.f}"</div>
             `;
@@ -130,7 +128,7 @@
                 <div class="item">
                     <div class="info-pessoal">
                         <span class="nome">${e.n}</span>
-                        <span class="data-fixa">DATA: ${e.dataFormatada}</span>
+                        <span class="data-fixa">${e.dataFormatada}</span>
                     </div>
                     <div class="dias">${e.dias === 0 ? 'HOJE' : e.dias + ' D'}</div>
                 </div>
