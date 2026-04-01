@@ -11,13 +11,17 @@
         .aviso { color: #FFB300; font-size: 11px; margin: 10px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
         #destaque { background: #161b22; border: 2px solid #FFB300; border-radius: 15px; width: 100%; padding: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255,179,0,0.2); }
         .container-lista { width: 100%; background: #161b22; border-radius: 10px; border: 1px solid #30363d; flex: 1; overflow-y: auto; margin-bottom: 10px; }
+        
         .item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #30363d; }
-        .info-pessoal { display: flex; flex-direction: column; }
         .nome { font-size: 13px; font-weight: bold; text-transform: uppercase; color: #fff; }
         .data-fixa { font-size: 11px; color: #8b949e; margin-top: 2px; }
         .dias { color: #39ff14; font-weight: bold; font-size: 14px; text-align: right; }
+        
         .frase-box { margin-top: 12px; font-style: italic; color: #ccc; font-size: 12px; line-height: 1.4; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; text-transform: uppercase; border-left: 3px solid #FFB300; }
+        
+        .btn-rever { margin-top: 15px; background: #FFB300; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; font-size: 12px; text-transform: uppercase; cursor: pointer; box-shadow: 0 0 10px rgba(255,179,0,0.4); }
 
+        /* TELA DE EVENTO ESPECIAL */
         #tela-especial {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, #1a0f00 0%, #000000 100%);
@@ -25,7 +29,23 @@
         }
         #tela-especial h1 { color: #FFB300; font-size: 20px; margin-bottom: 15px; text-transform: uppercase; }
         #tela-especial p { font-size: 15px; margin-bottom: 20px; line-height: 1.5; color: #fff; font-weight: bold; text-transform: uppercase; }
-        #media-container video { width: 100%; max-width: 400px; border: 2px solid #FFB300; border-radius: 15px; box-shadow: 0 0 30px rgba(255,179,0,0.5); }
+        #media-container video { width: 100%; max-width: 400px; border: 2px solid #FFB300; border-radius: 15px; }
+
+        /* BOTÃO DE FECHAR ATUALIZADO (GRANDE E VISÍVEL) */
+        .btn-fechar {
+            margin-top: 30px; 
+            background: #FFB300; /* Dourado Sólido */
+            color: #000; /* Texto Preto para Contraste */
+            border: 2px solid #fff; /* Borda Branca para destacar */
+            padding: 15px 30px; /* Mais "gordinho" */
+            border-radius: 10px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            cursor: pointer;
+            width: 90%; /* Ocupa quase a largura toda */
+            box-shadow: 0 0 20px rgba(255,179,0,0.6); /* Brilho Dourado */
+        }
     </style>
 </head>
 <body>
@@ -40,21 +60,42 @@
         <h1 id="titulo-especial"></h1>
         <p id="texto-especial"></p>
         <div id="media-container"></div>
-        <button onclick="document.getElementById('tela-especial').style.display='none'" style="margin-top:25px; background:none; border:1px solid #FFB300; color: #FFB300; padding: 10px 20px; border-radius: 5px; font-size: 12px; font-weight: bold; text-transform: uppercase;">ENTRAR NO CALENDÁRIO</button>
+        <button class="btn-fechar" onclick="fecharEspecial()">ENTRAR NO CALENDÁRIO</button>
     </div>
 
     <script>
         const eventos = [
-            // PÁSCOA CONFIGURADA PARA TESTE HOJE (31/03)
-            { n: "PÁSCOA", d: 31, m: 3, f: "FOI POR MIM, FOI POR VOCÊ, O REAL SIGNIFICADO DA PÁSCOA.", especial: { tipo: 'video', src: 'video_pascoa.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, O REAL SIGNIFICADO DA PÁSCOA, JESUS 👑✝️' }},
+            // TESTE DA PÁSCOA HOJE (31/03)
+            { n: "🇧🇷 PÁSCOA (TESTE)", d: 31, m: 3, f: "FOI POR MIM, FOI POR VOCÊ, O REAL SIGNIFICADO DA PÁSCOA.", especial: { tipo: 'video', src: 'video_pascoa.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, O REAL SIGNIFICADO DA PÁSCOA, JESUS 👑✝️' }},
             
-            // DEMAIS DATAS REAIS
-            { n: "RAYSSA (NAMORADA)", d: 28, m: 5, f: "O DIA DA PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR, EU TE AMO! ❤️❤️❤️' }},
-            { n: "MAIARA (IRMÃ)", d: 16, m: 1, f: "PONTO CENTRAL DA ELITE E LEALDADE TOTAL." },
-            { n: "PEDRO (AFILHADO)", d: 28, m: 2, f: "CUIDANDO DO FUTURO DO NOSSO AFILHADO!" },
-            { n: "MÃE", d: 28, m: 8, f: "DIA DA SUA PROGENITORA, QUEM DEU A CRIAÇÃO E PRINCÍPIOS." },
-            { n: "PAI (O REI)", d: 30, m: 9, f: "DIA DO SEU PROGENITOR, A ROCHA E FUNDAÇÃO DE TUDO." }
+            // DATAS ORIGINAIS
+            { n: "🎂 MAIARA (IRMÃ)", d: 16, m: 1, f: "PONTO CENTRAL DA ELITE E LEALDADE TOTAL." },
+            { n: "🎂 PHILIPE (AMIGO)", d: 24, m: 1, f: "SÓ FELIZ ANIVERSÁRIO, IGUAL ELE FEZ." },
+            { n: "🎂 PEDRO (AFILHADO)", d: 28, m: 2, f: "CUIDANDO DO FUTURO DO NOSSO AFILHADO!" },
+            { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "O DIA DA PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR! ❤️❤️❤️' }},
+            { n: "🎂 MÃE", d: 28, m: 8, f: "DIA DA SUA PROGENITORA, QUEM DEU A CRIAÇÃO E PRINCÍPIOS." },
+            { n: "🎂 PAI (O REI)", d: 30, m: 9, f: "DIA DO SEU PROGENITOR, A ROCHA E FUNDAÇÃO DE TUDO." },
+            { n: "🇧🇷 NATAL", d: 25, m: 12, f: "UNIÃO TOTAL DO CÍRCULO DE ELITE." }
         ];
+
+        let eventoDeHoje = null;
+
+        function abrirEspecial() {
+            if (!eventoDeHoje) return;
+            document.getElementById('tela-especial').style.display = 'flex';
+            document.getElementById('titulo-especial').innerText = eventoDeHoje.n;
+            document.getElementById('texto-especial').innerText = eventoDeHoje.especial.msg;
+            
+            const container = document.getElementById('media-container');
+            container.innerHTML = `<video src="${eventoDeHoje.especial.src}" id="vPlayer" controls loop autoplay playsinline preload="auto"></video>`;
+            const v = document.getElementById('vPlayer');
+            v.play().catch(() => { v.muted = true; v.play(); }); 
+        }
+
+        function fecharEspecial() {
+            document.getElementById('tela-especial').style.display = 'none';
+            document.getElementById('media-container').innerHTML = '';
+        }
 
         window.onload = function() {
             const hoje = new Date();
@@ -62,18 +103,9 @@
             const mesH = hoje.getMonth() + 1;
             const ano = hoje.getFullYear();
 
-            // Busca evento especial para hoje
-            const hojeEspecial = eventos.find(e => e.d === diaH && e.m === mesH && e.especial);
-            
-            if (hojeEspecial) {
-                document.getElementById('tela-especial').style.display = 'flex';
-                document.getElementById('titulo-especial').innerText = hojeEspecial.n;
-                document.getElementById('texto-especial').innerText = hojeEspecial.especial.msg;
-                // Adicionado 'muted' para garantir o autoplay no navegador
-                document.getElementById('media-container').innerHTML = `<video src="${hojeEspecial.especial.src}" controls loop autoplay muted playsinline preload="auto"></video>`;
-            }
+            eventoDeHoje = eventos.find(e => e.d === diaH && e.m === mesH && e.especial);
+            if (eventoDeHoje) { abrirEspecial(); }
 
-            // Cálculo da Lista
             let calculados = eventos.map(ev => {
                 let dataEv = new Date(ano, ev.m - 1, ev.d);
                 if (dataEv < hoje && dataEv.toDateString() !== hoje.toDateString()) { dataEv.setFullYear(ano + 1); }
@@ -84,10 +116,13 @@
             }).sort((a, b) => a.dias - b.dias);
 
             const p = calculados[0];
+            const btnRever = (p.dias === 0 && p.especial) ? `<button class="btn-rever" onclick="abrirEspecial()">📺 VER VÍDEO DA PÁSCOA</button>` : '';
+
             document.getElementById('destaque').innerHTML = `
                 <h2 style="margin: 5px 0; color: #FFB300;">${p.n}</h2>
                 <div style="font-size: 11px; color: #8b949e; margin-bottom: 10px;">DATA: ${p.dataFormatada}</div>
-                <div style="font-size: 24px; color: #39ff14; font-weight: bold;">${p.dias === 0 ? 'HOJE É O DIA!' : 'FALTAM ' + p.dias + ' DIAS'}</div>
+                <div style="font-size: 24px; color: #39ff14; font-weight: bold;">HOJE É O DIA!</div>
+                ${btnRever}
                 <div class="frase-box">"${p.f}"</div>
             `;
 
