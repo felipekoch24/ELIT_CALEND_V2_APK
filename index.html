@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Calendar - Felipe</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --gold: #FFB300;
+            --green: #39ff14;
+            --red: #ff4444;
+            --text: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .proximo-card {
+            background: var(--card);
+            border: 2px solid var(--gold);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 179, 0, 0.2);
+        }
+
+        .frase-destaque {
+            font-style: italic;
+            color: #ccc;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .lista-eventos {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 5px;
+            text-align: left;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .evento {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .tipo-feriado { color: var(--red); font-weight: bold; font-size: 10px; text-transform: uppercase; }
+        .tipo-niver { color: var(--gold); font-weight: bold; font-size: 10px; text-transform: uppercase; }
+        .dias-faltam { color: var(--green); font-weight: bold; }
+
+        #tela-especial {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        img, video { width: 100%; max-width: 350px; border-radius: 10px; border: 2px solid var(--gold); }
+    </style>
+</head>
+<body>
+
+    <div id="app-principal">
+        <h2 style="color: var(--gold); font-size: 18px;">CRONOGRAMA DE ELITE</h2>
+        
+        <div class="proximo-card" id="destaque"></div>
+
+        <div class="lista-eventos" id="lista"></div>
+    </div>
+
+    <div id="tela-especial">
+        <h1 style="color: var(--gold); text-align: center;">FELIZ ANIVERSÁRIO, RAYSSA! ❤️</h1>
+        <img src="foto_casal.jpg">
+        <video controls autoplay loop><source src="video_comemorativo.mp4" type="video/mp4"></video>
+    </div>
+
+    <script>
+        const eventos = [
+            // ANIVERSÁRIOS
+            { n: "Pedro (Afilhado)", d: 28, m: 2, t: "niver", f: "Cuidando do futuro do nosso afilhado!" },
+            { n: "Rayssa (Namorada)", d: 28, m: 5, t: "niver", f: "O dia da pessoa mais leal da minha vida." },
+            { n: "Maiara (Irmã)", d: 16, m: 1, t: "niver", f: "Aniversário da irmã de consideração e ponto central." },
+            { n: "Mãe", d: 28, m: 8, t: "niver", f: "Homenagem a quem deu a criação e os princípios." },
+            { n: "Leticia (Afilhada)", d: 29, m: 9, t: "niver", f: "Respeito e carinho pela nossa afilhada." },
+            
+            // FERIADOS 2026 E FRASES
+            { n: "Sexta-feira Santa", d: 3, m: 4, t: "feriado", f: "Momento de reflexão e respeito à nossa fé católica." },
+            { n: "Tiradentes", d: 21, m: 4, t: "feriado", f: "Honra a quem lutou pela liberdade." },
+            { n: "Dia do Trabalho", d: 1, m: 5, t: "feriado", f: "O trabalho dignifica o homem e constrói o 20k." },
+            { n: "Corpus Christi", d: 4, m: 6, t: "feriado", f: "Dia de celebrar o mistério da Eucaristia." },
+            { n: "Independência", d: 7, m: 9, t: "feriado", f: "Um país forte é feito de homens decididos." },
+            { n: "Nossa Sra Aparecida", d: 12, m: 10, t: "feriado", f: "Proteção da Padroeira sobre nossa família." },
+            { n: "Finados", d: 2, m: 11, t: "feriado", f: "Respeito e memória aos que já partiram." },
+            { n: "Proclamação República", d: 15, m: 11, t: "feriado", f: "A ordem e o progresso começam no nosso bolso." },
+            { n: "Consciência Negra", d: 20, m: 11, t: "feriado", f: "Valorizando a história e a força do nosso povo." },
+            { n: "Natal", d: 25, m: 12, t: "feriado", f: "União total da base e do
