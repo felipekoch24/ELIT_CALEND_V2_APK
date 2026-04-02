@@ -51,14 +51,13 @@
         const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
         const eventos = [
-            // CÍRCULO DE ELITE 🎂
+            { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR, TUDO DE MELHOR NESSA NOVA FASE, SOU MUITO FELIZ E GRATO POR TE TER NA MINHA VIDA, TE AMO MINHA LINDA, SEGUE UM VIDEO DE ANIVER PRA VOCÊ ABAIXO🎂❤️❤️' }},
             { n: "🎂 MAIARA (IRMÃ)", d: 16, m: 1, f: "PONTO CENTRAL DA ELITE E LEALDADE TOTAL." },
             { n: "🎂 PHILIPE (AMIGO)", d: 24, m: 1, f: "SÓ FELIZ ANIVERSÁRIO, IGUAL ELE FEZ." },
             { n: "🎂 DANIEL (PRIMO)", d: 11, m: 2, f: "LEMBRAR DA DATA (CONTROLE PESSOAL)." },
             { n: "🎂 PEDRO (AFILHADO)", d: 28, m: 2, f: "CUIDANDO DO FUTURO DO NOSSO AFILHADO!" },
             { n: "🎂 CAMILI (IRMÃ)", d: 8, m: 4, f: "AMOR COM ESTRATÉGIA. GENIOSA, MAS CALMA." },
             { n: "🎂 SAMUEL (PRIMO)", d: 18, m: 4, f: "PRIMO PARCEIRO, BOA CONVIVÊNCIA SEMPRE." },
-            { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR, TUDO DE MELHOR NESSA NOVA FASE, SOU MUITO FELIZ E GRATO POR TE TER NA MINHA VIDA, TE AMO MINHA LINDA, SEGUE UM VIDEO DE ANIVER PRA VOCÊ ABAIXO🎂❤️❤️' }},
             { n: "🎂 LAURA E ISMA", d: 31, m: 5, f: "CONTROLE DE DATAS REGISTRADO." },
             { n: "🎂 SANDRA (DINDA)", d: 19, m: 6, f: "RETRIBUIR O PARABÉNS CONFORME RECEBIDO." },
             { n: "🎂 MÃE", d: 28, m: 8, f: "QUEM DEU A CRIAÇÃO E OS PRINCÍPIOS DA BASE." },
@@ -66,9 +65,11 @@
             { n: "🎂 FELÍCIO E LETÍCIA", d: 29, m: 9, f: "RESPEITO MÁXIMO AOS AFILHADOS E PADRINHOS." },
             { n: "🎂 PAI (O REI)", d: 30, m: 9, f: "A ROCHA, O CHEFE, O REI. SUA FUNDAÇÃO." },
 
-            // DATAS 🇧🇷
             { n: "🇧🇷 ANO NOVO", d: 1, m: 1, f: "NOVO CICLO FOCADO NO LEGADO." },
-            { n: "🇧🇷 PÁSCOA", d: 5, m: 4, f: "JESUS: O REAL SIGNIFICADO.", especial: { tipo: 'video', src: 'video_pascoa.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, JESUS 👑✝️' }},
+            
+            // PÁSCOA - DATA OFICIAL 2026: 05 DE ABRIL
+            { n: "🇧🇷 PÁSCOA", d: 5, m: 4, f: "JESUS: O REAL SIGNIFICADO.", especial: { tipo: 'video', src: 'pascoa2.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, O REI DOS REIS ESTÁ VIVO, ELE RESSUSCITOU!👑✝️' }},
+            
             { n: "🇧🇷 DIA DAS MÃES", d: 10, m: 5, f: "HONRAR A MATRIARCA DA BASE." },
             { n: "🇧🇷 FESTA JUNINA", d: 24, m: 6, f: "TRADIÇÃO E COMEMORAÇÃO JUNINA." },
             { n: "🇧🇷 DIA DOS PAIS", d: 9, m: 8, f: "HONRAR O PATRIARCA E CHEFE DA BASE." },
@@ -85,7 +86,7 @@
             document.getElementById('titulo-especial').innerText = eventoDeHoje.n;
             document.getElementById('texto-especial').innerText = eventoDeHoje.especial.msg;
             const container = document.getElementById('media-container');
-            container.innerHTML = `<video src="${eventoDeHoje.especial.src}" id="vPlayer" controls loop autoplay playsinline preload="auto"></video>`;
+            container.innerHTML = `<video id="vPlayer" src="${eventoDeHoje.especial.src}" controls loop autoplay playsinline></video>`;
             const v = document.getElementById('vPlayer');
             v.play().catch(() => { v.muted = true; v.play(); }); 
         }
@@ -119,7 +120,7 @@
             document.getElementById('destaque').innerHTML = `
                 <h2 style="margin: 5px 0; color: #FFB300;">${p.n}</h2>
                 <div style="font-size: 11px; color: #8b949e; margin-bottom: 10px;">DATA: ${p.dataFormatada}</div>
-                <div style="font-size: 24px; color: #39ff14; font-weight: bold;">${p.dias === 0 ? 'HOJE É O DIA!' : 'FALTAM ' + p.dias + ' DIAS'}</div>
+                <div style="font-size: 24px; color: #39ff14; font-weight: bold;">${p.dias === 0 ? 'HOJE É O DIA!' : 'FALTA POUCO'}</div>
                 ${btnRever}
                 <div class="frase-box">"${p.f}"</div>
             `;
