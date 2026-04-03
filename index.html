@@ -21,15 +21,27 @@
         
         .btn-rever { margin-top: 15px; background: #FFB300; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; font-size: 12px; text-transform: uppercase; cursor: pointer; box-shadow: 0 0 10px rgba(255,179,0,0.4); }
 
+        /* AJUSTE NA TELA ESPECIAL PARA NÃO CORTAR */
         #tela-especial {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, #1a0f00 0%, #000000 100%);
-            z-index: 10000; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;
+            z-index: 10000; flex-direction: column; justify-content: flex-start; align-items: center; padding: 15px; text-align: center;
+            overflow-y: auto;
         }
-        #tela-especial h1 { color: #FFB300; font-size: 20px; margin-bottom: 15px; text-transform: uppercase; }
-        #tela-especial p { font-size: 14px; margin-bottom: 20px; line-height: 1.5; color: #fff; font-weight: bold; text-transform: uppercase; padding: 0 10px; }
-        #media-container video { width: 100%; max-width: 400px; border: 2px solid #FFB300; border-radius: 15px; }
-        .btn-fechar { margin-top: 30px; background: #FFB300; color: #000; border: 2px solid #fff; padding: 15px 30px; border-radius: 10px; font-size: 14px; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 90%; box-shadow: 0 0 20px rgba(255,179,0,0.6); }
+        #tela-especial h1 { color: #FFB300; font-size: 18px; margin: 15px 0 10px 0; text-transform: uppercase; }
+        #tela-especial p { font-size: 13px; margin-bottom: 15px; line-height: 1.4; color: #fff; font-weight: bold; text-transform: uppercase; padding: 0 10px; }
+        
+        #media-container { width: 100%; display: flex; justify-content: center; align-items: center; }
+        #media-container video { 
+            width: auto; 
+            max-width: 95%; 
+            max-height: 60vh; 
+            border: 2px solid #FFB300; 
+            border-radius: 15px; 
+            box-shadow: 0 0 20px rgba(255,179,0,0.3);
+        }
+
+        .btn-fechar { margin: 25px 0; background: #FFB300; color: #000; border: 2px solid #fff; padding: 15px; border-radius: 10px; font-size: 14px; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 100%; max-width: 300px; }
     </style>
 </head>
 <body>
@@ -55,15 +67,14 @@
             { 
                 n: "✝️ SEXTA-FEIRA SANTA", 
                 d: 3, m: 4, 
-                f: "DIA DE REFLEXÃO E GRATIDÃO PELO SACRIFÍCIO SUPREMO.", 
+                f: "FOI POR AMOR A VOCÊ E A HUMANIDADE.", 
                 especial: { 
                     tipo: 'video', 
                     src: 'sextafeirasanta.mp4', 
                     msg: 'FOI POR MIM, FOI POR VOCÊ, PELA NOSSA SALVAÇÃO, NÃO SE ESQUEÇA, FOI POR AMOR A VOCÊ E A HUMANIDADE✝️👑' 
                 } 
             },
-
-            { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR, TUDO DE MELHOR NESSA NOVA FASE, SOU MUITO FELIZ E GRATO POR TE TER NA MINHA VIDA, TE AMO MINHA LINDA, SEGUE UM VIDEO DE ANIVER PRA VOCÊ ABAIXO🎂❤️❤️' }},
+            { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR, TE AMO!🎂❤️' }},
             { n: "🎂 MAIARA (IRMÃ)", d: 16, m: 1, f: "PONTO CENTRAL DA ELITE E LEALDADE TOTAL." },
             { n: "🎂 PHILIPE (AMIGO)", d: 24, m: 1, f: "SÓ FELIZ ANIVERSÁRIO, IGUAL ELE FEZ." },
             { n: "🎂 DANIEL (PRIMO)", d: 11, m: 2, f: "LEMBRAR DA DATA (CONTROLE PESSOAL)." },
@@ -76,9 +87,8 @@
             { n: "🎂 FERNANDA (IRMÃ)", d: 7, m: 9, f: "ANIVERSÁRIO REGISTRADO (MÁ PAGADORA E INGRATA)." },
             { n: "🎂 FELÍCIO E LETÍCIA", d: 29, m: 9, f: "RESPEITO MÁXIMO AOS AFILHADOS E PADRINHOS." },
             { n: "🎂 PAI (O REI)", d: 30, m: 9, f: "A ROCHA, O CHEFE, O REI. SUA FUNDAÇÃO." },
-
             { n: "🇧🇷 ANO NOVO", d: 1, m: 1, f: "NOVO CICLO FOCADO NO LEGADO." },
-            { n: "🇧🇷 PÁSCOA", d: 5, m: 4, f: "JESUS: O REAL SIGNIFICADO.", especial: { tipo: 'video', src: 'pascoa2.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, O REI DOS REIS ESTÁ VIVO, ELE RESSUSCITOU!👑✝️' }},
+            { n: "🇧🇷 PÁSCOA", d: 5, m: 4, f: "JESUS: O REAL SIGNIFICADO.", especial: { tipo: 'video', src: 'pascoa2.mp4', msg: 'O REI DOS REIS ESTÁ VIVO, ELE RESSUSCITOU!👑✝️' }},
             { n: "🇧🇷 DIA DAS MÃES", d: 10, m: 5, f: "HONRAR A MATRIARCA DA BASE." },
             { n: "🇧🇷 FESTA JUNINA", d: 24, m: 6, f: "TRADIÇÃO E COMEMORAÇÃO JUNINA." },
             { n: "🇧🇷 DIA DOS PAIS", d: 9, m: 8, f: "HONRAR O PATRIARCA E CHEFE DA BASE." },
