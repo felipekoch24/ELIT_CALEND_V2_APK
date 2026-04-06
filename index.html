@@ -6,7 +6,7 @@
     <title>ELITE CALENDAR - FELIPE</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #090b10; color: white; font-family: sans-serif; height: 100vh; width: 100vw; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; padding: 15px; }
+        body { background-color: #090b10; color: white; font-family: sans-serif; min-height: 100vh; width: 100vw; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; padding: 15px; }
         
         .aviso { color: #FFB300; font-size: 11px; margin: 10px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
         #destaque { background: #161b22; border: 2px solid #FFB300; border-radius: 15px; width: 100%; padding: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255,179,0,0.2); }
@@ -15,7 +15,9 @@
         .item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #30363d; }
         .nome { font-size: 13px; font-weight: bold; text-transform: uppercase; color: #fff; }
         .data-fixa { font-size: 11px; color: #8b949e; margin-top: 2px; text-transform: capitalize; }
+        .controles-item { display: flex; align-items: center; gap: 10px; }
         .dias { color: #39ff14; font-weight: bold; font-size: 14px; text-align: right; }
+        .btn-del { color: #ff4444; background: none; border: none; font-size: 16px; cursor: pointer; padding: 0 5px; }
         
         .frase-box { margin-top: 12px; font-style: italic; color: #ccc; font-size: 12px; line-height: 1.4; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; text-transform: uppercase; border-left: 3px solid #FFB300; }
         
@@ -32,7 +34,7 @@
         #tela-especial p { font-size: 13px; margin-bottom: 15px; line-height: 1.4; color: #fff; font-weight: bold; text-transform: uppercase; padding: 0 10px; }
         
         #media-container { width: 100%; display: flex; justify-content: center; align-items: center; }
-        #media-container video { 
+        #media-container video, #media-container img { 
             width: auto; 
             max-width: 95%; 
             max-height: 60vh; 
@@ -42,14 +44,42 @@
         }
 
         .btn-fechar { margin: 25px 0; background: #FFB300; color: #000; border: 2px solid #fff; padding: 15px; border-radius: 10px; font-size: 14px; font-weight: bold; text-transform: uppercase; cursor: pointer; width: 100%; max-width: 300px; }
+
+        /* SEÇÃO GERENCIADOR */
+        .admin-section { width: 100%; background: #1c2128; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #FFB300; }
+        .admin-section h3 { font-size: 12px; color: #FFB300; margin-bottom: 10px; text-transform: uppercase; text-align: center;}
+        .inputs-admin { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .inputs-admin input, .inputs-admin select { background: #0d1117; border: 1px solid #30363d; color: white; padding: 10px; border-radius: 5px; font-size: 12px; width: 100%;}
+        .full-width { grid-column: span 2; }
+        .btn-add { grid-column: span 2; background: #39ff14; color: #000; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 5px; text-transform: uppercase; font-size: 12px;}
     </style>
 </head>
 <body>
 
-    <div id="app-principal" style="width: 100%; display: flex; flex-direction: column; height: 100%;">
+    <div id="app-principal" style="width: 100%; display: flex; flex-direction: column; min-height: 100vh;">
         <center><div class="aviso">--- CRONOGRAMA DE ELITE ---</div></center>
         <div id="destaque"></div>
         <div class="container-lista" id="lista"></div>
+
+        <div class="admin-section">
+            <h3>➕ Gerenciar Calendário</h3>
+            <div class="inputs-admin">
+                <input type="text" id="add-nome" placeholder="NOME DO EVENTO (EX: 🎂 NOVO ANIVERSÁRIO)">
+                <input type="text" id="add-frase" placeholder="FRASE DE ELITE">
+                <input type="number" id="add-dia" placeholder="DIA (1-31)">
+                <select id="add-mes">
+                    <option value="" disabled selected>MÊS</option>
+                    <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+                    <option value="3">Março</option><option value="4">Abril</option>
+                    <option value="5">Maio</option><option value="6">Junho</option>
+                    <option value="7">Julho</option><option value="8">Agosto</option>
+                    <option value="9">Setembro</option><option value="10">Outubro</option>
+                    <option value="11">Novembro</option><option value="12">Dezembro</option>
+                </select>
+                <input type="text" id="add-media" placeholder="LINK DE VÍDEO/IMAGEM (OPCIONAL)" class="full-width">
+                <button class="btn-add" onclick="adicionarEvento()">Adicionar à Elite</button>
+            </div>
+        </div>
     </div>
 
     <div id="tela-especial">
@@ -62,24 +92,16 @@
     <script>
         const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-        const eventos = [
-            // EVENTO DE HOJE - SEXTA-FEIRA SANTA
-            { 
-                n: "✝️ SEXTA-FEIRA SANTA", 
-                d: 3, m: 4, 
-                f: "FOI POR AMOR A VOCÊ E A HUMANIDADE.", 
-                especial: { 
-                    tipo: 'video', 
-                    src: 'sextafeirasanta.mp4', 
-                    msg: 'FOI POR MIM, FOI POR VOCÊ, PELA NOSSA SALVAÇÃO, NÃO SE ESQUEÇA, FOI POR AMOR A VOCÊ E A HUMANIDADE✝️👑' 
-                } 
-            },
+        // DATAS ORIGINAIS MANTIDAS
+        const eventosOriginais = [
+            { n: "✝️ SEXTA-FEIRA SANTA", d: 3, m: 4, f: "FOI POR AMOR A VOCÊ E A HUMANIDADE.", especial: { tipo: 'video', src: 'sextafeirasanta.mp4', msg: 'FOI POR MIM, FOI POR VOCÊ, PELA NOSSA SALVAÇÃO, NÃO SE ESQUEÇA, FOI POR AMOR A VOCÊ E A HUMANIDADE✝️👑' } },
             { n: "🎂 RAYSSA (NAMORADA)", d: 28, m: 5, f: "PESSOA MAIS LEAL DA MINHA VIDA.", especial: { tipo: 'video', src: 'video_comemorativo.mp4', msg: 'PARABÉNS PELO SEU DIA MEU AMOR, TE AMO!🎂❤️' }},
             { n: "🎂 MAIARA (IRMÃ)", d: 16, m: 1, f: "PONTO CENTRAL DA ELITE E LEALDADE TOTAL." },
             { n: "🎂 PHILIPE (AMIGO)", d: 24, m: 1, f: "SÓ FELIZ ANIVERSÁRIO, IGUAL ELE FEZ." },
             { n: "🎂 DANIEL (PRIMO)", d: 11, m: 2, f: "LEMBRAR DA DATA (CONTROLE PESSOAL)." },
             { n: "🎂 PEDRO (AFILHADO)", d: 28, m: 2, f: "CUIDANDO DO FUTURO DO NOSSO AFILHADO!" },
-            { n: "🎂 CAMILI (IRMÃ)", d: 8, m: 4, f: "AMOR COM ESTRATÉGIA. GENIOSA, MAS CALMA." },
+            // ATUALIZAÇÃO DA CAMILI
+            { n: "🎂 ANIVERSÁRIO DA BRIGUENTINHA", d: 8, m: 4, f: "AMOR COM ESTRATÉGIA. GENIOSA, MAS CALMA. OBS: JÁ DEI 100 R$ PRA ELA.", especial: { tipo: 'img', src: 'CAMILI.jpg', msg: 'PARABÉNS, BRIGUENTINHA! APROVEITA SEUS R$ 100! 🎂🎁' } },
             { n: "🎂 SAMUEL (PRIMO)", d: 18, m: 4, f: "PRIMO PARCEIRO, BOA CONVIVÊNCIA SEMPRE." },
             { n: "🎂 LAURA E ISMA", d: 31, m: 5, f: "CONTROLE DE DATAS REGISTRADO." },
             { n: "🎂 SANDRA (DINDA)", d: 19, m: 6, f: "RETRIBUIR O PARABÉNS CONFORME RECEBIDO." },
@@ -97,17 +119,66 @@
             { n: "🇧🇷 NATAL", d: 25, m: 12, f: "UNIÃO TOTAL DO CÍRCULO DE ELITE." }
         ];
 
-        let eventoDeHoje = null;
+        // Carregar eventos salvos ou usar os originais
+        let eventos = JSON.parse(localStorage.getItem('elite_events')) || eventosOriginais;
+        let eventoDeHojeDestaque = null;
 
-        function abrirEspecial() {
-            if (!eventoDeHoje) return;
+        function salvarEventos() {
+            localStorage.setItem('elite_events', JSON.stringify(eventos));
+            location.reload(); // Recarrega para aplicar mudanças
+        }
+
+        function adicionarEvento() {
+            const nome = document.getElementById('add-nome').value.toUpperCase();
+            const frase = document.getElementById('add-frase').value.toUpperCase();
+            const dia = parseInt(document.getElementById('add-dia').value);
+            const mes = parseInt(document.getElementById('add-mes').value);
+            const media = document.getElementById('add-media').value;
+
+            if (nome && dia && mes) {
+                let novoEvento = { n: nome, d: dia, m: mes, f: frase || "DATA REGISTRADA NA ELITE." };
+                
+                if (media) {
+                    // Lógica simples para detectar tipo de mídia pelo link
+                    const tipo = media.match(/\.(jpeg|jpg|gif|png)$/) ? 'img' : 'video';
+                    novoEvento.especial = { tipo: tipo, src: media, msg: 'MÍDIA ESPECIAL DO DIA!' };
+                }
+                
+                eventos.push(novoEvento);
+                salvarEventos();
+            } else {
+                alert("Preencha Nome, Dia e Mês.");
+            }
+        }
+
+        function removerEvento(indexNoCalculados) {
+            // Precisamos encontrar o índice real no array 'eventos' desordenado
+            const eventoParaRemover = calculadosGlobais[indexNoCalculados];
+            const indiceReal = eventos.findIndex(e => e.n === eventoParaRemover.n && e.d === eventoParaRemover.d && e.m === eventoParaRemover.m);
+            
+            if (indiceReal !== -1 && confirm(`Remover "${eventoParaRemover.n}" permanentemente?`)) {
+                eventos.splice(indiceReal, 1);
+                salvarEventos();
+            }
+        }
+
+        function abrirEspecial(eventoParaAbrir = null) {
+            const ev = eventoParaAbrir || eventoDeHojeDestaque;
+            if (!ev || !ev.especial) return;
+            
             document.getElementById('tela-especial').style.display = 'flex';
-            document.getElementById('titulo-especial').innerText = eventoDeHoje.n;
-            document.getElementById('texto-especial').innerText = eventoDeHoje.especial.msg;
+            document.getElementById('titulo-especial').innerText = ev.n;
+            document.getElementById('texto-especial').innerText = ev.especial.msg;
             const container = document.getElementById('media-container');
-            container.innerHTML = `<video id="vPlayer" src="${eventoDeHoje.especial.src}" controls loop autoplay playsinline></video>`;
-            const v = document.getElementById('vPlayer');
-            v.play().catch(() => { v.muted = true; v.play(); }); 
+            container.innerHTML = ''; // Limpa antes
+
+            if (ev.especial.tipo === 'video') {
+                container.innerHTML = `<video id="vPlayer" src="${ev.especial.src}" controls loop autoplay playsinline></video>`;
+                const v = document.getElementById('vPlayer');
+                v.play().catch(() => { v.muted = true; v.play(); });
+            } else if (ev.especial.tipo === 'img') {
+                container.innerHTML = `<img src="${ev.especial.src}" alt="Mídia Especial">`;
+            }
         }
 
         function fecharEspecial() {
@@ -115,16 +186,24 @@
             document.getElementById('media-container').innerHTML = '';
         }
 
+        let calculadosGlobais = [];
+
         window.onload = function() {
             const hoje = new Date();
             const diaH = hoje.getDate();
             const mesH = hoje.getMonth() + 1;
             const ano = hoje.getFullYear();
 
-            eventoDeHoje = eventos.find(e => e.d === diaH && e.m === mesH && e.especial);
-            if (eventoDeHoje) { abrirEspecial(); }
+            // Encontrar o evento de hoje exato para abrir automático
+            eventoDeHojeDestaque = eventos.find(e => e.d === diaH && e.m === mesH && e.especial);
+            
+            // Lógica para abrir automático apenas uma vez por dia (usando sessionStorage)
+            if (eventoDeHojeDestaque && sessionStorage.getItem('especialVisto') !== eventoDeHojeDestaque.n) { 
+                abrirEspecial();
+                sessionStorage.setItem('especialVisto', eventoDeHojeDestaque.n);
+            }
 
-            let calculados = eventos.map(ev => {
+            calculadosGlobais = eventos.map(ev => {
                 let dataEv = new Date(ano, ev.m - 1, ev.d);
                 if (dataEv < hoje && dataEv.toDateString() !== hoje.toDateString()) { dataEv.setFullYear(ano + 1); }
                 const diff = dataEv - hoje;
@@ -133,26 +212,35 @@
                 return { ...ev, dias, dataFormatada };
             }).sort((a, b) => a.dias - b.dias);
 
-            const p = calculados[0];
-            const btnRever = (p.dias === 0 && p.especial) ? `<button class="btn-rever" onclick="abrirEspecial()">📺 VER VÍDEO ESPECIAL</button>` : '';
+            if (calculadosGlobais.length > 0) {
+                const p = calculadosGlobais[0];
+                
+                // Botão "Ver Novamente" aparece se houver mídia no evento de hoje exato
+                const btnRever = (p.dias === 0 && p.especial) ? `<button class="btn-rever" onclick="abrirEspecial()">📺 VER MÍDIA ESPECIAL</button>` : '';
 
-            document.getElementById('destaque').innerHTML = `
-                <h2 style="margin: 5px 0; color: #FFB300;">${p.n}</h2>
-                <div style="font-size: 11px; color: #8b949e; margin-bottom: 10px;">DATA: ${p.dataFormatada}</div>
-                <div style="font-size: 24px; color: #39ff14; font-weight: bold;">${p.dias === 0 ? 'HOJE É O DIA!' : 'FALTA POUCO'}</div>
-                ${btnRever}
-                <div class="frase-box">"${p.f}"</div>
-            `;
+                document.getElementById('destaque').innerHTML = `
+                    <h2 style="margin: 5px 0; color: #FFB300;">${p.n}</h2>
+                    <div style="font-size: 11px; color: #8b949e; margin-bottom: 10px;">DATA: ${p.dataFormatada}</div>
+                    <div style="font-size: 24px; color: #39ff14; font-weight: bold;">${p.dias === 0 ? 'HOJE É O DIA!' : 'FALTA POUCO'}</div>
+                    ${btnRever}
+                    <div class="frase-box">"${p.f}"</div>
+                `;
 
-            document.getElementById('lista').innerHTML = calculados.map(e => `
-                <div class="item">
-                    <div class="info-pessoal">
-                        <span class="nome">${e.n}</span>
-                        <span class="data-fixa">${e.dataFormatada}</span>
+                document.getElementById('lista').innerHTML = calculadosGlobais.map((e, index) => `
+                    <div class="item">
+                        <div class="info-pessoal">
+                            <span class="nome">${e.n}</span>
+                            <span class="data-fixa">${e.dataFormatada}</span>
+                        </div>
+                        <div class="controles-item">
+                            <div class="dias">${e.dias === 0 ? 'HOJE' : e.dias + ' D'}</div>
+                            <button class="btn-del" onclick="removerEvento(${index})">×</button>
+                        </div>
                     </div>
-                    <div class="dias">${e.dias === 0 ? 'HOJE' : e.dias + ' D'}</div>
-                </div>
-            `).join('');
+                `).join('');
+            } else {
+                document.getElementById('destaque').innerHTML = "<h2>NENHUM EVENTO NA ELITE</h2>";
+            }
         };
     </script>
 </body>
